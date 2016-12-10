@@ -125,10 +125,9 @@ export default function webpackConfigFactory(buildOptions: BuildOptions) {
         ifDevClient('react-hot-loader/patch'),
         // Required to support hot reloading of our client.
         ifDevClient(() => `webpack-hot-middleware/client?reload=true&path=http://${envConfig.host}:${envConfig.clientDevServerPort}/__webpack_hmr`),
-        // We are using polyfill.io instead of the very heavy babel-polyfill.
-        // Therefore we need to add the regenerator-runtime as the babel-polyfill
-        // included this, which polyfill.io doesn't include.
-        ifClient('regenerator-runtime/runtime'),
+        // For now, we must use the very heavy babel-polyfill to avoid a bug in babel-runtime.
+        // TODO: Replace with regenerator-runtime once fixed.
+        ifClient('babel-polyfill'),
         // The source entry file for the bundle.
         path.resolve(appRootDir.get(), bundleConfig.srcEntryFile),
       ]),
