@@ -10,7 +10,7 @@ const styled = require('styled-components').default;
 
 const HeaderWrapper = styled.div`
   font-size: 1.5em;
-  margin-bottom: 1rem;
+  margin-bottom: 1em;
   text-align: center;
   color: #5499C7;
 `;
