@@ -6,6 +6,7 @@ import { renderToString } from 'react-dom/server';
 import { getFarceResult } from 'found/lib/server';
 import { CodeSplitProvider, createRenderContext } from 'code-split-component';
 import Helmet from 'react-helmet';
+import keystone from 'keystone';
 import generateHTML from './generateHTML';
 import { routeConfig, renderConfig } from '../../../shared/components/App';
 import envConfig from '../../../../config/private/environment';
@@ -22,6 +23,13 @@ async function reactApplicationMiddleware(request: $Request, response: $Response
   }
   const nonce = response.locals.nonce;
 
+  const csrfTokenValue = keystone.security.csrf.getToken(request, response);
+
+  // Set KeystoneJS session token in response
+  const initialState = {
+    csrfToken: csrfTokenValue,
+  };
+
   // It's possible to disable SSR, which can be useful in development mode.
   // In this case traditional client side only rendering will occur.
   if (!envConfig.ssrEnabled) {
@@ -31,6 +39,7 @@ async function reactApplicationMiddleware(request: $Request, response: $Response
     // SSR is disabled so we will just return an empty html page and will
     // rely on the client to initialize and render the react application.
     const html = generateHTML({
+      initialState,
       // Nonce which allows us to safely declare inline scripts.
       nonce,
     });

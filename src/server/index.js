@@ -14,6 +14,10 @@ import security from './middleware/security';
 import clientBundle from './middleware/clientBundle';
 import serviceWorker from './middleware/serviceWorker';
 import errorHandlers from './middleware/errorHandlers';
+import importModels from './models/';
+import config from './config';
+import KeystoneSingleton from './keystone';
+// import router from './router';
 import projConfig from '../../config/private/project';
 import envConfig from '../../config/private/environment';
 
@@ -51,10 +55,40 @@ app.get('*', reactApplication);
 // Error Handler middlewares.
 app.use(...errorHandlers);
 
-// Create an http listener for our express app.
-const listener = app.listen(envConfig.port, envConfig.host, () =>
-  console.log(`Server listening on port ${envConfig.port}`),
-);
+const keystone = KeystoneSingleton.keystone;
+
+// Initialize Keystone
+keystone.init(config);
+// TODO: Investigate Keystone's handling of routers.
+// keystone.set('routes', router);
+keystone.initExpressApp(app);
+importModels();
+
+// Open Database Connection
+keystone.openDatabaseConnection();
+
+// Create http(s) listener(s) for our keystone express app.
+// let l be the listener to be exported.
+let l;
+if (process.env.NODE_ENV === 'production') {
+  const ssl = keystone.get('ssl');
+  // HTTP Server
+  if (ssl !== 'only') {
+    require('../../node_modules/keystone/server/startHTTPServer')(keystone, keystone.app, (err, msg) => console.log(`HTTP Server listening: ${msg}`));
+    l = keystone.httpServer;
+  }
+  // HTTPS Server
+  if (ssl) {
+    require('../../node_modules/keystone/server/startSecureServer')(keystone, keystone.app, (err, msg) => console.log(`HTTPS Server listening: ${msg}`));
+    l = keystone.httpsServer;
+  }
+} else {
+  // Dev Server
+  l = keystone.app.listen(envConfig.port, envConfig.host, () =>
+    console.log(`Development Server listening on port ${envConfig.port}`),
+  );
+}
+const listener = l;
 
 // We export the listener as it will be handy for our development hot reloader,
 // or for exposing a general extension layer for application customisations.

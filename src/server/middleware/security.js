@@ -21,7 +21,10 @@ const cspConfig = {
       // script to do data store rehydration (redux/mobx/apollo) for example.
       // @see https://helmetjs.github.io/docs/csp/
       // $FlowFixMe
-      (req, res) => `'nonce-${res.locals.nonce}'`,
+      // (req, res) => `'nonce-${res.locals.nonce}'`,
+      // TODO: Remove once nonces can be used with keystone.
+      // Instead of nonces, we need to use specify unsafe-inline
+      "'unsafe-inline'", // Delete this line afterwards
     ],
     styleSrc: [
       "'self'",

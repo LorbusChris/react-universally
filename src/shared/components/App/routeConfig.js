@@ -6,6 +6,8 @@ import Route from 'found/lib/jsx/Route';
 import { CodeSplit } from 'code-split-component';
 import type { ReactElement } from '../../types/react';
 import App from './App';
+import Page from './Page';
+import fetchPage from '../../fetchApi';
 
 function routeRender({ Component, props }: {Component: ReactElement, props?: any}) {
   if (!Component || !props) {
@@ -44,6 +46,20 @@ export default makeRouteConfig(
       path="about"
       Component={CodeSplitAbout}
       render={routeRender}
+    />
+    <Route
+      path=":pageId"
+      Component={Page}
+      getData={({ params: { pageId } }) => (
+        fetchPage(pageId)
+      )}
+      render={({ Component, data }) => (
+        Component && data ? (
+          <Component {...data} />
+        ) : (
+          <div><small>Loading&hellip;</small></div>
+        )
+      )}
     />
   </Route>,
 );
