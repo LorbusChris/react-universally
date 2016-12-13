@@ -81,4 +81,7 @@ async function reactApplicationMiddleware(request: $Request, response: $Response
     .send(html);
 }
 
-export default (reactApplicationMiddleware : Middleware);
+// Create an async wrapper to catch exceptions thrown by our middleware
+const asyncWrapper = fn => (...args) => fn(...args).catch(args[2]);
+
+export default (asyncWrapper(reactApplicationMiddleware) : Middleware);
