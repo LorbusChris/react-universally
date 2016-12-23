@@ -11,11 +11,132 @@ html {
   padding: 0;
 }
 
-/* Inline our ul for our menu */
-ul {
+* {
   margin: 0;
   padding: 0;
-  list-style-type: none;
+  box-sizing: border-box;
 }
 
-ul li { display: inline; margin: 0 .5rem; }
+nav {
+  display: flex;
+  flex-flow: column nowrap;
+  z-index: 9999;
+  overflow: hidden;
+  transition: background 0.35s linear;
+  background: rgba(0, 0, 0, 0.8);
+}
+nav .nav-header {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 2.875em;
+}
+nav .nav-header .nav-logo-desktop {
+  display: none;
+}
+nav .nav-header .nav-logo-mobile-left {
+  margin-left: 0.25em;
+}
+nav .nav-header .nav-logo-mobile-left a > img {
+  height: 2.875em;
+  display: block;
+}
+nav .nav-header .nav-logo-mobile-center {
+  margin-top: 0.5em;
+}
+nav .nav-header .nav-logo-mobile-center a {
+  font-family: Helvetica, Arial, sans-serif;
+  white-space: nowrap;
+  color: white;
+  display: block;
+  text-decoration: none;
+  font-size: 1.8em;
+  padding: 0.1em;
+}
+nav .nav-header .nav-menuicon label[for="nav-menustate"] {
+  font-family: "Times New Roman", Times, serif;
+  color: white;
+  cursor: pointer;
+  display: block;
+  font-size: 2em;
+  text-decoration: none;
+  margin-top: 0.3em;
+  margin-right: 0.5em;
+}
+nav .nav-header .nav-menuicon label[for="nav-menustate"]:hover {
+  font-weight: bold;
+}
+nav .nav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  height: 0;
+  transition: height 0.35s ease-in 200ms;
+}
+nav .nav-list li > a {
+  font-family: Helvetica, Arial, sans-serif;
+  color: white;
+  display: block;
+  text-decoration: none;
+  text-align: center;
+  line-height: 4em;
+}
+nav .nav-list li > a:hover {
+  opacity: .65;
+}
+
+#nav-menustate {
+  display: none;
+}
+
+#nav-menustate:checked ~ nav {
+  background: rgba(0, 0, 0, 0.95);
+}
+#nav-menustate:checked ~ nav label[for="nav-menustate"] {
+  font-weight: bold;
+}
+#nav-menustate:checked ~ nav label[for="nav-menustate"]:hover {
+  font-weight: normal;
+}
+#nav-menustate:checked ~ nav .nav-list {
+  height: 16em;
+}
+
+@media only screen and (min-width: 40em) {
+  nav .nav-header {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    height: 12.5em;
+  }
+  nav .nav-header .nav-logo-desktop {
+    display: block;
+  }
+  nav .nav-header .nav-logo-desktop a > img {
+    padding: 1em;
+    padding-left: 7.5em;
+  }
+  nav .nav-header .nav-logo-mobile-left, nav .nav-header .nav-logo-mobile-center, nav .nav-header .nav-menuicon {
+    display: none;
+  }
+  nav .nav-list {
+    transition: none;
+    height: 2.875em;
+    display: flex;
+    flex-flow: row nowrap;
+    flex-grow: 1;
+    justify-content: space-around;
+  }
+  nav .nav-list li > a {
+    display: inline-block;
+    line-height: 2.875em;
+    margin: 0.1em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  #nav-menustate:checked ~ nav .nav-list {
+    height: 2.875em;
+  }
+}

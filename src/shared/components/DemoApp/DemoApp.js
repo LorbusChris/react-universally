@@ -10,7 +10,7 @@ import { safeConfigGet } from '../../utils/config';
 
 function DemoApp({ children }: { children?: ReactChildren }) {
   return (
-    <div style={{ padding: '10px' }}>
+    <div>
       {/*
         All of the following will be injected into our page header.
         @see https://github.com/nfl/react-helmet
