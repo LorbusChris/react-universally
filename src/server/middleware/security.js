@@ -20,7 +20,10 @@ const cspConfig = {
       // script to do data store rehydration (redux/mobx/apollo) for example.
       // @see https://helmetjs.github.io/docs/csp/
       // $FlowFixMe
-      (req, res) => `'nonce-${res.locals.nonce}'`,
+      // (req, res) => `'nonce-${res.locals.nonce}'`,
+      // TODO: Remove once nonces can be used with keystone.
+      // Unfortunately, for now we need to specify unsafe-inline
+      "'unsafe-inline'", // Delete this line afterwards
     ],
     styleSrc: [
       "'self'",
@@ -120,7 +123,7 @@ const securityMiddleware = [
   // The CSP configuration is an optional item for helmet, however you should
   // not remove it without making a serious consideration that you do not
   // require the added security.
-  helmet.contentSecurityPolicy(cspConfig),
+  // helmet.contentSecurityPolicy(cspConfig),
 ];
 
 export default (securityMiddleware : Array<Middleware>);

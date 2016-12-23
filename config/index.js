@@ -18,6 +18,13 @@ if (process.env.IS_CLIENT) {
 }
 
 const config = {
+  // Env vars for Keystone
+  cloudinaryUrl: getStringEnvVar('CLOUDINARY_URL', 'cloudinary://api_key:api_secret@cloud_name'),
+  letsenscryptEmail: getStringEnvVar('LETSENCRYPT_EMAIL', 'some@email.com'),
+  mongoUri: getStringEnvVar('MONGO_URI', 'mongodb://localhost:27017'),
+  cookieSecret: getStringEnvVar('COOKIE_SECRET', 'yourCookieSecret'),
+  adminPath: getStringEnvVar('ADMIN_PATH', 'keystone'),
+
   // The host on which the server should run.
   host: getStringEnvVar('SERVER_HOST', 'localhost'),
 

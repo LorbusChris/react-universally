@@ -10,7 +10,7 @@ import Error404 from './Error404';
 export default createRender({
   renderError: ({ error }) => ( // eslint-disable-line react/prop-types
     <App>
-      {error.status === 404 ? <Error404 /> : 'Error'}
+      {error.status === 404 ? <Error404 /> : <div>Error: {error.status} {error.data}</div> }
     </App>
   ),
 });
