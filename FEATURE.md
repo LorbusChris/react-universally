@@ -1,6 +1,6 @@
 # Found
 
-This is a feature branch of `react-universally` that is currently built against `v11.0.0`.
+This is a feature branch of `react-universally` that is currently built against `v11.0.1`.
 
 It provides you with a simple [Found](https://github.com/4Catalyzer/found) router implementation.
 
@@ -17,7 +17,7 @@ Found is a React Router v2 style router with global route configuration, data fe
 Huge Thanks go to
 
   - [Sean Matheson (@ctrlplusb)](https://github.com/ctrlplusb/) for providing the incredible `react-universally` starter this branch is based on and caringly steering the community that is evolving around it.
-  
+
   - [Jimmy Jia (@taion)](https://github.com/taion/) for the creation of the powerful `Found` router and the help implementing it here.
 
 ## Maintainer
